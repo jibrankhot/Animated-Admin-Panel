@@ -1,0 +1,22 @@
+<aside class="sidebar" [class.collapsed]="collapsed">
+    <div class="profile" *ngIf="!collapsed">
+        <div class="avatar">J</div>
+        <div class="info">
+            <h4>Admin Name</h4>
+            <span>Administrator</span>
+        </div>
+    </div>
+
+    <nav class="menu">
+        <a *ngFor="let item of menuItems" class="menu-item" [routerLink]="item.route" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }">
+            <span class="icon material-icons">
+                {{ item.icon }}
+            </span>
+
+            <span class="label" *ngIf="!collapsed">
+                {{ item.label }}
+            </span>
+        </a>
+    </nav>
+</aside>

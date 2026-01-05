@@ -1,0 +1,27 @@
+<canvas #canvas class="bg-canvas"></canvas>
+
+<div class="ui">
+
+    <!-- WELCOME -->
+    <section *ngIf="scene === 'welcome'">
+        <span class="tag">WELCOME</span>
+        <h1>JIBRAN</h1>
+        <p>Immersive Commerce Experience</p>
+        <button (click)="next('email')">ENTER</button>
+    </section>
+
+    <!-- EMAIL -->
+    <section *ngIf="scene === 'email'">
+        <h2>IDENTITY</h2>
+        <input type="email" placeholder="Email address" [(ngModel)]="email" />
+        <button (click)="next('password')">CONTINUE</button>
+    </section>
+
+    <!-- PASSWORD -->
+    <section *ngIf="scene === 'password'">
+        <h2>SECURITY</h2>
+        <input type="password" placeholder="Password" [(ngModel)]="password" />
+        <button>LOGIN</button>
+    </section>
+
+</div>
