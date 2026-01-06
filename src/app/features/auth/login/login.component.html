@@ -1,27 +1,31 @@
-<canvas #canvas class="bg-canvas"></canvas>
+<div class="world">
+    <!-- 3D PRODUCT LAYERS -->
+    <div class="products">
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+    </div>
 
-<div class="ui">
+    <div class="scene">
+        <!-- INTRO -->
+        <ng-container *ngIf="step === 'intro'">
+            <h1>JIBRAN COMMERCE</h1>
+            <p>Enter the digital store</p>
+            <button (click)="goTo('email')">Enter Store</button>
+        </ng-container>
 
-    <!-- WELCOME -->
-    <section *ngIf="scene === 'welcome'">
-        <span class="tag">WELCOME</span>
-        <h1>JIBRAN</h1>
-        <p>Immersive Commerce Experience</p>
-        <button (click)="next('email')">ENTER</button>
-    </section>
+        <!-- EMAIL -->
+        <ng-container *ngIf="step === 'email'">
+            <h2>Your Identity</h2>
+            <input type="email" placeholder="Email address" [(ngModel)]="email" />
+            <button (click)="goTo('password')">Continue</button>
+        </ng-container>
 
-    <!-- EMAIL -->
-    <section *ngIf="scene === 'email'">
-        <h2>IDENTITY</h2>
-        <input type="email" placeholder="Email address" [(ngModel)]="email" />
-        <button (click)="next('password')">CONTINUE</button>
-    </section>
-
-    <!-- PASSWORD -->
-    <section *ngIf="scene === 'password'">
-        <h2>SECURITY</h2>
-        <input type="password" placeholder="Password" [(ngModel)]="password" />
-        <button>LOGIN</button>
-    </section>
-
+        <!-- PASSWORD -->
+        <ng-container *ngIf="step === 'password'">
+            <h2>Secure Access</h2>
+            <input type="password" placeholder="Password" [(ngModel)]="password" />
+            <button>Login</button>
+        </ng-container>
+    </div>
 </div>
