@@ -1,99 +1,216 @@
 :host {
   height: 100vh;
   display: block;
-  background: #0b0d12;
+  background: #000;
   color: #fff;
   font-family: Inter, system-ui, sans-serif;
   overflow: hidden;
 }
 
-/* WORLD */
-.world {
-  position: relative;
-  height: 100%;
-  perspective: 1000px;
+/* =====================
+   SCROLL / WORLD
+===================== */
+
+.scroll-space {
+  height: 200vh;
 }
 
-/* PRODUCT DEPTH */
-.products {
+.world {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  perspective: 3000px;
+  transform-style: preserve-3d;
+  overflow: hidden;
+}
+
+/* =====================
+   VIDEO
+===================== */
+
+.video {
   position: absolute;
   inset: 0;
-  transform-style: preserve-3d;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.5) contrast(1.15);
+  transform: scale(1.4);
 }
 
-.card {
+/* =====================
+   CINEMATIC OVERLAYS
+===================== */
+
+.vignette {
   position: absolute;
-  width: 220px;
-  height: 320px;
-  background: linear-gradient(135deg, #222, #111);
-  opacity: 0.25;
-  border-radius: 12px;
-  transform: translateZ(-200px);
-  animation: float 10s infinite ease-in-out;
+  inset: 0;
+  background: radial-gradient(
+    circle,
+    transparent 30%,
+    rgba(0, 0, 0, 0.95)
+  );
+  pointer-events: none;
 }
 
-.card:nth-child(1) {
-  top: 20%;
-  left: 15%;
+.grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  pointer-events: none;
+  background-image: url(
+    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"
+  );
 }
 
-.card:nth-child(2) {
-  top: 40%;
-  right: 15%;
-  animation-delay: -3s;
-}
+/* =====================
+   STAGE
+===================== */
 
-.card:nth-child(3) {
-  bottom: 15%;
-  left: 35%;
-  animation-delay: -6s;
-}
-
-@keyframes float {
-  0% { transform: translateZ(-200px) translateY(0); }
-  50% { transform: translateZ(-160px) translateY(-20px); }
-  100% { transform: translateZ(-200px) translateY(0); }
-}
-
-/* SCENE */
-.scene {
+.stage {
   position: relative;
   z-index: 2;
   height: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+/* =====================
+   SCENE BASE
+===================== */
+
+.scene {
+  text-align: center;
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+}
+
+/* =====================
+   INTRO
+===================== */
+
+.brand {
+  font-size: clamp(2.8rem, 6vw, 4.8rem);
+  letter-spacing: 0.3em;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.line {
+  margin-top: 28px;
+  opacity: 0.6;
+  letter-spacing: 0.15em;
+  line-height: 1.6;
+}
+
+/* =====================
+   FORM CONTAINER
+===================== */
+
+.form {
+  width: 440px;
+  padding: 56px 52px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   text-align: center;
 }
 
-h1 {
-  letter-spacing: 4px;
-  font-size: 32px;
+/* =====================
+   FORM TEXT
+===================== */
+
+.headline {
+  font-size: 0.8rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  line-height: 1.6;
 }
 
-h2 {
-  font-size: 26px;
+.copy {
+  margin: 18px auto 44px;
+  opacity: 0.6;
+  max-width: 320px;
+  line-height: 1.6;
 }
 
-p {
-  opacity: 0.7;
-  margin-bottom: 24px;
+/* =====================
+   FIELD
+===================== */
+
+.field {
+  margin-top: 4px;
 }
 
-input {
-  width: 280px;
-  padding: 14px;
-  margin-bottom: 16px;
-  background: rgba(0,0,0,0.5);
-  border: 1px solid rgba(255,255,255,0.2);
+.field input {
+  width: 100%;
+  padding: 16px 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
   color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+  text-align: center;
 }
 
-button {
-  padding: 14px 42px;
+.field input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* =====================
+   MICRO HINT
+===================== */
+
+.hint {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  opacity: 0.45;
+}
+
+/* =====================
+   BUTTONS
+===================== */
+
+.next-btn {
+  margin-top: 42px;
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: #fff;
+  letter-spacing: 0.3em;
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+
+.enter {
+  margin-top: 42px;
+  width: 100%;
+  padding: 22px 54px;
   background: #fff;
   color: #000;
   border: none;
+  letter-spacing: 0.35em;
+  font-size: 0.75rem;
   cursor: pointer;
+}
+
+/* =====================
+   PREVENT DOUBLE ANIMATION
+   (GSAP controls visibility)
+===================== */
+
+.form .headline,
+.form .copy,
+.form .field,
+.form .hint,
+.form .next-btn,
+.submit .enter {
+  opacity: 0;
 }

@@ -1,31 +1,60 @@
-<div class="world">
-    <!-- 3D PRODUCT LAYERS -->
-    <div class="products">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-    </div>
+<div class="scroll-space">
+    <div class="world">
 
-    <div class="scene">
-        <!-- INTRO -->
-        <ng-container *ngIf="step === 'intro'">
-            <h1>JIBRAN COMMERCE</h1>
-            <p>Enter the digital store</p>
-            <button (click)="goTo('email')">Enter Store</button>
-        </ng-container>
+        <video #bgVideo class="video" muted loop playsinline preload="auto">
+            <source src="assets/login-bg.mp4" type="video/mp4" />
+        </video>
 
-        <!-- EMAIL -->
-        <ng-container *ngIf="step === 'email'">
-            <h2>Your Identity</h2>
-            <input type="email" placeholder="Email address" [(ngModel)]="email" />
-            <button (click)="goTo('password')">Continue</button>
-        </ng-container>
+        <div class="vignette"></div>
+        <div class="grain"></div>
 
-        <!-- PASSWORD -->
-        <ng-container *ngIf="step === 'password'">
-            <h2>Secure Access</h2>
-            <input type="password" placeholder="Password" [(ngModel)]="password" />
-            <button>Login</button>
-        </ng-container>
+        <div class="stage" (click)="next()">
+
+            <!-- INTRO -->
+            <section class="scene intro" *ngIf="scene === 0">
+                <h1 class="brand">BUILT FOR THOSE WHO MOVE FIRST</h1>
+                <p class="line">
+                    Enter your space. Continue to sign in.
+                </p>
+            </section>
+
+            <!-- EMAIL -->
+            <section class="scene form" *ngIf="scene === 1" (click)="$event.stopPropagation()">
+                <h2 class="headline">START WITH YOUR EMAIL</h2>
+                <p class="copy">
+                    This helps us recognize you.
+                </p>
+
+                <div class="field">
+                    <input type="email" [(ngModel)]="email" placeholder="Enter your email address" />
+                    <small class="hint">We’ll never share your email.</small>
+                </div>
+
+                <button class="next-btn" (click)="next()">CONTINUE</button>
+            </section>
+
+            <!-- PASSWORD -->
+            <section class="scene form" *ngIf="scene === 2" (click)="$event.stopPropagation()">
+                <h2 class="headline">SECURE YOUR ACCESS</h2>
+                <p class="copy">
+                    This keeps your account protected.
+                </p>
+
+                <div class="field">
+                    <input type="password" [(ngModel)]="password" placeholder="Enter your password" />
+                    <small class="hint">Your password is encrypted and private.</small>
+                </div>
+
+                <button class="next-btn" (click)="next()">SIGN IN</button>
+            </section>
+
+            <!-- SUBMIT -->
+            <section class="scene submit" *ngIf="scene === 3" (click)="$event.stopPropagation()">
+                <button class="enter" (click)="submit($event)">
+                    ENTER YOUR ACCOUNT
+                </button>
+            </section>
+
+        </div>
     </div>
 </div>
