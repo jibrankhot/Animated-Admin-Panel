@@ -27,7 +27,6 @@ export class LoginComponent implements AfterViewInit {
   email = '';
   password = '';
 
-  // 🔒 prevent re-typing flicker
   private typedScenes = new Set<number>();
 
   constructor(private router: Router) { }
@@ -40,35 +39,19 @@ export class LoginComponent implements AfterViewInit {
 
   private startVideo(): void {
     const v = this.bgVideo.nativeElement;
+
+    // 🔑 Force autoplay from start
     v.muted = true;
     v.playsInline = true;
+    v.preload = 'auto';
+    v.currentTime = 0;
 
-    gsap.set('.intro', {
-      opacity: 0,
-      filter: 'blur(8px) brightness(0.9)'
-    });
+    const play = () => v.play().catch(() => { });
+    play();
 
-    v.addEventListener(
-      'playing',
-      () => {
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            this.backgroundMotion();
-            this.lensFocusReveal();
-          });
-        });
-      },
-      { once: true }
-    );
+    document.addEventListener('visibilitychange', play);
 
-    v.play().catch(() => {
-      document.addEventListener('click', () => v.play(), { once: true });
-    });
-  }
-
-  /* ================= BACKGROUND ================= */
-
-  private backgroundMotion(): void {
+    // 🎬 Cinematic background motion
     gsap.to('.video', {
       scale: 1.15,
       duration: 26,
@@ -76,17 +59,13 @@ export class LoginComponent implements AfterViewInit {
       repeat: -1,
       yoyo: true
     });
-  }
 
-  /* ================= INTRO ================= */
-
-  private lensFocusReveal(): void {
-    gsap.to('.intro', {
-      opacity: 1,
-      filter: 'blur(0px) brightness(1)',
-      duration: 1.4,
-      ease: 'power1.out'
-    });
+    // 🎥 Lens focus reveal
+    gsap.fromTo(
+      '.intro',
+      { opacity: 0, filter: 'blur(10px)' },
+      { opacity: 1, filter: 'blur(0px)', duration: 1.4, ease: 'power2.out' }
+    );
   }
 
   /* ================= NEXT ================= */
@@ -97,6 +76,7 @@ export class LoginComponent implements AfterViewInit {
 
     gsap.to('.scene', {
       opacity: 0,
+      filter: 'blur(6px)',
       duration: 0.3,
       ease: 'power2.out',
       onComplete: () => {
@@ -111,45 +91,41 @@ export class LoginComponent implements AfterViewInit {
   private enterScene(): void {
     gsap.fromTo(
       '.scene',
-      { opacity: 0 },
+      { opacity: 0, filter: 'blur(8px)' },
       {
         opacity: 1,
+        filter: 'blur(0px)',
         duration: 0.4,
         ease: 'power2.out',
         onComplete: () => {
           this.animating = false;
-          if (this.scene >= 1) {
-            this.revealFormContent();
-          }
+          this.revealText();
         }
       }
     );
   }
 
-  /* ================= FORM CONTENT ================= */
+  /* ================= TEXT REVEAL ================= */
 
-  private revealFormContent(): void {
-    const tl = gsap.timeline();
+  private revealText(): void {
+    if (this.typedScenes.has(this.scene)) return;
 
-    // ✨ Typing ONLY ONCE for EMAIL scene
-    if (this.scene === 1 && !this.typedScenes.has(1)) {
-      const headline = document.querySelector('.headline') as HTMLElement;
-      const copy = document.querySelector('.copy') as HTMLElement;
+    const elements = document.querySelectorAll(
+      '.headline, .copy, .hint, .next-btn, .enter'
+    ) as NodeListOf<HTMLElement>;
 
-      if (headline) this.typeText(headline, 22);
-      if (copy) this.typeText(copy, 18, 0.15);
+    let delay = 0;
 
-      this.typedScenes.add(1);
-    } else {
-      gsap.to('.headline, .copy', { opacity: 1, duration: 0.25 });
-    }
+    elements.forEach(el => {
+      if (!el || !el.innerText.trim()) return;
+      this.typeText(el, 18, delay);
+      delay += 0.25;
+    });
 
-    tl.to('.field', { opacity: 1, duration: 0.3 }, '+=0.25')
-      .to('.hint', { opacity: 0.45, duration: 0.3 }, '+=0.05')
-      .to('.next-btn, .enter', { opacity: 1, duration: 0.25 }, '+=0.05');
+    this.typedScenes.add(this.scene);
   }
 
-  /* ================= TYPING EFFECT ================= */
+  /* ================= TYPING ================= */
 
   private typeText(
     el: HTMLElement,
@@ -164,7 +140,8 @@ export class LoginComponent implements AfterViewInit {
 
     gsap.delayedCall(delay, () => {
       const interval = setInterval(() => {
-        el.innerText += text.charAt(i);
+        const char = text.charAt(i);
+        el.innerHTML += char === ' ' ? '&nbsp;' : char;
         i++;
         if (i >= text.length) clearInterval(interval);
       }, speed);
@@ -173,9 +150,7 @@ export class LoginComponent implements AfterViewInit {
 
   /* ================= SUBMIT ================= */
 
-  submit(e: Event): void {
-    e.stopPropagation();
-
+  submit(): void {
     gsap.to('.world', {
       opacity: 0,
       duration: 0.6,

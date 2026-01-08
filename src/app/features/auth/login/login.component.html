@@ -8,49 +8,53 @@
         <div class="vignette"></div>
         <div class="grain"></div>
 
-        <div class="stage" (click)="next()">
+        <div class="stage">
 
             <!-- INTRO -->
             <section class="scene intro" *ngIf="scene === 0">
                 <h1 class="brand">BUILT FOR THOSE WHO MOVE FIRST</h1>
-                <p class="line">
-                    Enter your space. Continue to sign in.
-                </p>
+                <p class="line">Enter your space. Continue to sign in.</p>
+
+                <button class="next-btn" type="button" (click)="next()">
+                    ENTER
+                </button>
             </section>
 
             <!-- EMAIL -->
-            <section class="scene form" *ngIf="scene === 1" (click)="$event.stopPropagation()">
+            <section class="scene form" *ngIf="scene === 1">
                 <h2 class="headline">START WITH YOUR EMAIL</h2>
-                <p class="copy">
-                    This helps us recognize you.
-                </p>
+                <p class="copy">This helps us recognize you.</p>
 
                 <div class="field">
-                    <input type="email" [(ngModel)]="email" placeholder="Enter your email address" />
+                    <input type="email" [(ngModel)]="email" placeholder="Enter your email address"
+                        aria-label="Email address" autocomplete="email" />
                     <small class="hint">We’ll never share your email.</small>
                 </div>
 
-                <button class="next-btn" (click)="next()">CONTINUE</button>
+                <button class="next-btn" type="button" (click)="next()" [disabled]="!email">
+                    CONTINUE
+                </button>
             </section>
 
             <!-- PASSWORD -->
-            <section class="scene form" *ngIf="scene === 2" (click)="$event.stopPropagation()">
+            <section class="scene form" *ngIf="scene === 2">
                 <h2 class="headline">SECURE YOUR ACCESS</h2>
-                <p class="copy">
-                    This keeps your account protected.
-                </p>
+                <p class="copy">This keeps your account protected.</p>
 
                 <div class="field">
-                    <input type="password" [(ngModel)]="password" placeholder="Enter your password" />
+                    <input type="password" [(ngModel)]="password" placeholder="Enter your password"
+                        aria-label="Password" autocomplete="current-password" />
                     <small class="hint">Your password is encrypted and private.</small>
                 </div>
 
-                <button class="next-btn" (click)="next()">SIGN IN</button>
+                <button class="next-btn" type="button" (click)="next()" [disabled]="!password">
+                    SIGN IN
+                </button>
             </section>
 
             <!-- SUBMIT -->
-            <section class="scene submit" *ngIf="scene === 3" (click)="$event.stopPropagation()">
-                <button class="enter" (click)="submit($event)">
+            <section class="scene submit" *ngIf="scene === 3">
+                <button class="enter" type="button" (click)="submit()">
                     ENTER YOUR ACCOUNT
                 </button>
             </section>

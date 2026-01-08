@@ -7,27 +7,21 @@
   overflow: hidden;
 }
 
-/* =====================
-   SCROLL / WORLD
-===================== */
-
+/* SCROLL */
 .scroll-space {
   height: 200vh;
 }
 
+/* WORLD */
 .world {
   position: sticky;
   top: 0;
   height: 100vh;
   perspective: 3000px;
-  transform-style: preserve-3d;
   overflow: hidden;
 }
 
-/* =====================
-   VIDEO
-===================== */
-
+/* VIDEO */
 .video {
   position: absolute;
   inset: 0;
@@ -35,13 +29,10 @@
   height: 100%;
   object-fit: cover;
   filter: brightness(0.5) contrast(1.15);
-  transform: scale(1.4);
+  transform: scale(1.3);
 }
 
-/* =====================
-   CINEMATIC OVERLAYS
-===================== */
-
+/* OVERLAYS */
 .vignette {
   position: absolute;
   inset: 0;
@@ -63,10 +54,7 @@
   );
 }
 
-/* =====================
-   STAGE
-===================== */
-
+/* STAGE */
 .stage {
   position: relative;
   z-index: 2;
@@ -74,24 +62,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transform-style: preserve-3d;
-  cursor: pointer;
 }
 
-/* =====================
-   SCENE BASE
-===================== */
-
+/* SCENE */
 .scene {
   text-align: center;
-  transform-style: preserve-3d;
-  will-change: transform, opacity, filter;
+  will-change: opacity, transform, filter;
 }
 
-/* =====================
-   INTRO
-===================== */
-
+/* INTRO */
 .brand {
   font-size: clamp(2.8rem, 6vw, 4.8rem);
   letter-spacing: 0.3em;
@@ -100,34 +79,58 @@
 }
 
 .line {
-  margin-top: 28px;
+  margin-top: 24px;
   opacity: 0.6;
   letter-spacing: 0.15em;
-  line-height: 1.6;
 }
 
-/* =====================
-   FORM CONTAINER
-===================== */
+/* 🎬 INTRO ENTER BUTTON */
+.intro .next-btn {
+  margin-top: 48px;
+  padding: 18px 64px;
+  width: auto;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 0.75rem;
+  letter-spacing: 0.4em;
+  cursor: pointer;
+  position: relative;
+  opacity: 0.85;
+}
 
+.intro .next-btn::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.6);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s ease;
+}
+
+.intro .next-btn:hover::after {
+  transform: scaleX(1);
+}
+
+/* FORM */
 .form {
   width: 440px;
   padding: 56px 52px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(40px);
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(48px);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  text-align: center;
 }
 
-/* =====================
-   FORM TEXT
-===================== */
-
+/* TEXT */
 .headline {
   font-size: 0.8rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  line-height: 1.6;
+  min-height: 1.2em; /* typing stability */
 }
 
 .copy {
@@ -135,16 +138,15 @@
   opacity: 0.6;
   max-width: 320px;
   line-height: 1.6;
+
+  white-space: normal;
+  letter-spacing: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  min-height: 2.2em; /* typing stability */
 }
 
-/* =====================
-   FIELD
-===================== */
-
-.field {
-  margin-top: 4px;
-}
-
+/* FIELD */
 .field input {
   width: 100%;
   padding: 16px 0;
@@ -157,26 +159,24 @@
   text-align: center;
 }
 
+.field input:focus {
+  border-bottom-color: #fff;
+}
+
 .field input::placeholder {
   color: rgba(255, 255, 255, 0.45);
 }
 
-/* =====================
-   MICRO HINT
-===================== */
-
+/* HINT */
 .hint {
   display: block;
   margin-top: 10px;
   font-size: 0.7rem;
-  letter-spacing: 0.04em;
   opacity: 0.45;
+  min-height: 1em;
 }
 
-/* =====================
-   BUTTONS
-===================== */
-
+/* BUTTONS */
 .next-btn {
   margin-top: 42px;
   width: 100%;
@@ -189,28 +189,23 @@
   cursor: pointer;
 }
 
+.next-btn:hover:not(:disabled) {
+  border-color: #fff;
+}
+
+.next-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 .enter {
   margin-top: 42px;
   width: 100%;
-  padding: 22px 54px;
+  padding: 22px;
   background: #fff;
   color: #000;
   border: none;
   letter-spacing: 0.35em;
   font-size: 0.75rem;
   cursor: pointer;
-}
-
-/* =====================
-   PREVENT DOUBLE ANIMATION
-   (GSAP controls visibility)
-===================== */
-
-.form .headline,
-.form .copy,
-.form .field,
-.form .hint,
-.form .next-btn,
-.submit .enter {
-  opacity: 0;
 }
