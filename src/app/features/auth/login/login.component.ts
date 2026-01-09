@@ -111,7 +111,7 @@ export class LoginComponent implements AfterViewInit {
     if (this.typedScenes.has(this.scene)) return;
 
     const elements = document.querySelectorAll(
-      '.headline, .copy, .hint, .next-btn, .enter'
+      '.headline'
     ) as NodeListOf<HTMLElement>;
 
     let delay = 0;
