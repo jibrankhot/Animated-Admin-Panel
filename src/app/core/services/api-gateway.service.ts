@@ -1,48 +1,25 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { EnvironmentService } from './environment.service';
+import { AdminRequest } from 'src/app/shared/models/request.model';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class ApiGatewayService {
-    constructor(private http: HttpClient) { }
 
-    auth<T>(action: string, payload?: any): Observable<T> {
-        return this.http.post<T>('/api/admin/auth', {
-            action,
-            payload,
-        });
-    }
+    constructor(
+        private http: HttpClient,
+        private env: EnvironmentService
+    ) { }
 
-    dataset<T>(dataset: string, params?: Record<string, any>): Observable<T> {
-        return this.http.post<T>('/api/admin/dataset', {
-            dataset,
-            params,
-        });
-    }
+    execute<T>(req: AdminRequest): Observable<T> {
+        const url = this.env.baseUrl + this.env.executeEndpoint;
+        let headers = new HttpHeaders();
 
-    curd<T>(operation: string, payload: any): Observable<T> {
-        return this.http.post<T>('/api/admin/curd', {
-            operation,
-            payload,
-        });
-    }
-
-    buildParams(params?: Record<string, any>): HttpParams | undefined {
-        if (!params) {
-            return undefined;
+        if (!(req instanceof FormData)) {
+            headers = headers.set('Content-Type', 'application/json; charset=utf-8');
         }
 
-        let httpParams = new HttpParams();
-
-        Object.keys(params).forEach((key) => {
-            const value = params[key];
-            if (value !== null && value !== undefined) {
-                httpParams = httpParams.set(key, value);
-            }
-        });
-
-        return httpParams;
+        return this.http.post<T>(url, req, { headers });
     }
 }
