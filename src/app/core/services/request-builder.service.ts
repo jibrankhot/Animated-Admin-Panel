@@ -1,53 +1,53 @@
-import { Injectable } from '@angular/core';
-import { AdminRequest } from '../../shared/models/admin-request.model';
-import { StorageService } from './storage.service';
+import { Injectable } from '@angular/core'
+import { RequestModel } from 'src/app/shared/interface/request.model'
+import { UserService } from 'src/app/shared/services/user.service'
 
 @Injectable({ providedIn: 'root' })
 export class RequestBuilderService {
 
-    constructor(private storage: StorageService) { }
+    constructor(private userService: UserService) { }
 
-    private user() {
-        return this.storage.getUser();
+    private getUser() {
+        return this.userService.get()
     }
 
     private userId() {
-        return this.user()?.id ?? '0';
+        return this.getUser()?.id ?? '0'
     }
 
-    private session() {
-        return this.user()?.sessionId ?? '0';
+    private sessionId() {
+        return this.getUser()?.sessionId ?? '0'
     }
 
-    private token() {
-        return this.user()?.token ?? '';
+    private db() {
+        return this.getUser()?.db ?? 'EcomDB'
     }
 
-    private company() {
-        return this.user()?.companyId ?? 1;
-    }
-
-    private year() {
-        return this.user()?.financialYear ?? 1;
-    }
-
-    private defaults() {
+    private baseParams() {
         return {
-            companyId: this.company(),
             userId: this.userId(),
-            financialYear: this.year(),
-            sessionId: this.session()
-        };
+            sessionId: this.sessionId()
+        }
     }
 
-    build(req: AdminRequest): AdminRequest {
-        return {
-            ...req,
-            params: {
-                ...this.defaults(),
-                ...(req.params || {})
-            },
-            token: req.token ?? this.token()
-        };
+    build(proc: string, params?: any, form?: any, sql?: string) {
+        return new RequestModel({
+            db: this.db(),
+            userId: this.userId(),
+            sessionId: this.sessionId(),
+            procedure: proc,
+            params: { ...this.baseParams(), ...params },
+            form,
+            inlineSql: sql
+        })
+    }
+
+    buildLogin(proc: string, params?: any, form?: any) {
+        return new RequestModel({
+            db: 'EcomDB',
+            procedure: proc,
+            params,
+            form
+        })
     }
 }
