@@ -13,27 +13,29 @@ export interface AdminUser {
 @Injectable({ providedIn: 'root' })
 export class UserService {
 
-    private key = 'admin_user'
+    private key = 'adminUser'
+    private user: AdminUser | null = null
+
+    load() {
+        const raw = sessionStorage.getItem(this.key)
+        if (raw) this.user = JSON.parse(raw)
+    }
 
     get(): AdminUser | null {
-        const raw = localStorage.getItem(this.key)
-        if (!raw) return null
-        try {
-            return JSON.parse(raw)
-        } catch {
-            return null
-        }
+        return this.user
     }
 
     set(user: AdminUser) {
-        localStorage.setItem(this.key, JSON.stringify(user))
+        this.user = user
+        sessionStorage.setItem(this.key, JSON.stringify(user))
     }
 
     clear() {
-        localStorage.removeItem(this.key)
+        this.user = null
+        sessionStorage.removeItem(this.key)
     }
 
-    isLoggedIn() {
-        return !!this.get()
+    isLoggedIn(): boolean {
+        return this.user !== null
     }
 }

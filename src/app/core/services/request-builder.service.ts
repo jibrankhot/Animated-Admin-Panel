@@ -7,47 +7,25 @@ export class RequestBuilderService {
 
     constructor(private userService: UserService) { }
 
-    private getUser() {
-        return this.userService.get()
-    }
-
-    private userId() {
-        return this.getUser()?.id ?? '0'
-    }
-
-    private sessionId() {
-        return this.getUser()?.sessionId ?? '0'
-    }
-
     private db() {
-        return this.getUser()?.db ?? 'EcomDB'
+        return this.userService.get()?.db || 'EcomDB'
     }
 
-    private baseParams() {
+    build(procedure: string, params?: any, form?: any): RequestModel {
         return {
-            userId: this.userId(),
-            sessionId: this.sessionId()
+            db: this.db(),
+            procedure,
+            params: params || {},
+            form: form || {}
         }
     }
 
-    build(proc: string, params?: any, form?: any, sql?: string) {
-        return new RequestModel({
-            db: this.db(),
-            userId: this.userId(),
-            sessionId: this.sessionId(),
-            procedure: proc,
-            params: { ...this.baseParams(), ...params },
-            form,
-            inlineSql: sql
-        })
-    }
-
-    buildLogin(proc: string, params?: any, form?: any) {
-        return new RequestModel({
+    buildLogin(procedure: string, params?: any, form?: any): RequestModel {
+        return {
             db: 'EcomDB',
-            procedure: proc,
-            params,
-            form
-        })
+            procedure,
+            params: params || {},
+            form: form || {}
+        }
     }
 }

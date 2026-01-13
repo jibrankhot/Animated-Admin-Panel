@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { EnvironmentService } from './environment.service'
@@ -11,14 +11,7 @@ export class ApiService {
         private env: EnvironmentService
     ) { }
 
-    post<T>(endpoint: string, body: any): Observable<T> {
-        const url = this.env.apiUrl + endpoint
-
-        let headers = new HttpHeaders()
-        if (!(body instanceof FormData)) {
-            headers = headers.set('Content-Type', 'application/json')
-        }
-
-        return this.http.post<T>(url, body, { headers })
+    post<T>(body: any): Observable<T> {
+        return this.http.post<T>(this.env.apiUrl + '/execute', body)
     }
 }
