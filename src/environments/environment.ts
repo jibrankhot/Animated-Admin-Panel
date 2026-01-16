@@ -1,5 +1,5 @@
 export const environment = {
     production: false,
-    apiUrl: 'https://your-admin-api.com/',
+    apiUrl: 'http://localhost:5000',
     execute: 'execute'
-}
+};

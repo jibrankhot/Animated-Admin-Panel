@@ -1,0 +1,86 @@
+
+Folder PATH listing for volume New Volume     
+Volume serial number is 000000AC 1E98:1A09    
+E:\ANGULAR-PROJECTS\ECOMWEBSITE\ADMINPANEL\SRC
+│   favicon.ico
+│   index.html
+│   main.ts
+│   styles.scss
+│   
+├───app
+│   │   app.component.html
+│   │   app.component.scss
+│   │   app.component.ts
+│   │   app.config.ts
+│   │   app.routes.ts
+│   │   
+│   ├───core
+│   │   ├───guards
+│   │   │       auth.guard.ts
+│   │   │       
+│   │   └───services
+│   │           api.service.ts
+│   │           auth.service.ts
+│   │           environment.service.ts
+│   │           notification.service.ts
+│   │           request-builder.service.ts
+│   │           storage.service.ts
+│   │
+│   ├───features
+│   │   ├───auth
+│   │   │   └───login
+│   │   │           login.component.html
+│   │   │           login.component.scss
+│   │   │           login.component.ts
+│   │   │
+│   │   ├───categories
+│   │   │   └───category-list
+│   │   ├───dashboard
+│   │   ├───orders
+│   │   │   ├───order-detail
+│   │   │   └───order-list
+│   │   ├───products
+│   │   │   ├───add-product
+│   │   │   ├───edit-product
+│   │   │   └───product-list
+│   │   └───users
+│   │       └───user-list
+│   ├───layout
+│   │   ├───admin-layout
+│   │   │       admin-layout.component.html
+│   │   │       admin-layout.component.scss
+│   │   │       admin-layout.component.ts
+│   │   │
+│   │   ├───footer
+│   │   │       footer.component.html
+│   │   │       footer.component.scss
+│   │   │       footer.component.ts
+│   │   │
+│   │   ├───header
+│   │   │       header.component.html
+│   │   │       header.component.scss
+│   │   │       header.component.ts
+│   │   │
+│   │   └───sidebar
+│   │           sidebar.component.html
+│   │           sidebar.component.scss
+│   │           sidebar.component.ts
+│   │
+│   └───shared
+│       ├───components
+│       ├───interface
+│       │       api-response.ts
+│       │       request.model.ts
+│       │
+│       └───services
+│               user.service.ts
+│
+├───assets
+│   │   .gitkeep
+│   │   login-bg.mp4
+│   │
+│   └───images
+└───environments
+        environment.prod.ts
+        environment.ts
+        
