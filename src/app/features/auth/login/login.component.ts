@@ -139,23 +139,27 @@ export class LoginComponent implements AfterViewInit {
   }
 
   submit(): void {
-    if (!this.email || !this.password) return
+    if (!this.email || !this.password) return;
 
     const params = {
       flag: 'Login',
       email: this.email,
       password: this.password
-    }
+    };
 
-    const req = this.requestBuilder.buildLogin('AdminLoginProc', params, {})
+    const req = this.requestBuilder.buildLogin(
+      'AdminLoginProc',
+      params,
+      {}
+    );
 
-    this.api.post<ApiResponse<any>>(req).subscribe(res => {
+    this.api.adminLogin<ApiResponse<any>>(req).subscribe(res => {
 
-      const ds = res.data?.[0]?.[0]
+      const ds = res.data?.[0]?.[0];
 
       if (!ds || ds.StatusCode !== 200) {
-        alert(ds?.Message || 'Login failed')
-        return
+        alert(ds?.Message || 'Login failed');
+        return;
       }
 
       this.userService.set({
@@ -166,16 +170,17 @@ export class LoginComponent implements AfterViewInit {
         sessionId: ds.Token,
         token: ds.Token,
         db: ds.Db
-      })
+      });
 
       gsap.to('.world', {
         opacity: 0,
         duration: 0.6,
         ease: 'power2.inOut',
         onComplete: () => {
-          this.router.navigateByUrl('/dashboard')
+          this.router.navigateByUrl('/dashboard');
         }
-      })
-    })
+      });
+    });
   }
+
 }
